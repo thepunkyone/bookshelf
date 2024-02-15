@@ -1,9 +1,80 @@
-// 🐨 you'll need to import react and createRoot from react-dom up here
+import React from 'react'
+import {createRoot} from 'react-dom/client'
+import {Dialog} from '@reach/dialog'
+import {VisuallyHidden} from '@reach/visually-hidden'
 
-// 🐨 you'll also need to import the Logo component from './components/logo'
+import {Logo} from 'components/logo'
+import {LoginForm} from './components/login-form'
 
-// 🐨 create an App component here and render the logo, the title ("Bookshelf"), a login button, and a register button.
-// 🐨 for fun, you can add event handlers for both buttons to alert that the button was clicked
+import '@reach/dialog/styles.css'
 
-// 🐨 use createRoot to render the <App /> to the root element
-// 💰 find the root element with: document.getElementById('root')
+function App() {
+  const [dialogOpen, setDialogOpen] = React.useState('none')
+
+  const openLoginDialog = () => {
+    setDialogOpen('login')
+  }
+
+  const openRegisterDialog = () => {
+    setDialogOpen('register')
+  }
+
+  const closeDialog = () => {
+    setDialogOpen('none')
+  }
+
+  const login = formData => {
+    console.log(formData)
+  }
+
+  const register = formData => {
+    console.log(formData)
+  }
+
+  return (
+    <main>
+      <div>
+        <Logo width="80" height="80" />
+        <h1>Bookshelf</h1>
+
+        <div>
+          <button onClick={openLoginDialog}>Login</button>
+        </div>
+        <div>
+          <button onClick={openRegisterDialog}>Register</button>
+        </div>
+
+        <Dialog
+          isOpen={dialogOpen === 'login'}
+          onDismiss={closeDialog}
+          aria-label="Login form"
+        >
+          <button onClick={closeDialog}>Close</button>
+
+          <h2>Login</h2>
+
+          <LoginForm onSubmit={login} buttonText="Login" />
+        </Dialog>
+
+        <Dialog
+          isOpen={dialogOpen === 'register'}
+          onDismiss={closeDialog}
+          aria-label="Register form"
+        >
+          <button onClick={closeDialog}>Close</button>
+
+          <h2>Register</h2>
+
+          <LoginForm onSubmit={register} buttonText="Register" />
+        </Dialog>
+      </div>
+    </main>
+  )
+}
+
+const domNode = document.getElementById('root')
+const root = createRoot(domNode)
+
+root.render(<App />)
+
+export {root}
