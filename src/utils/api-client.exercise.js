@@ -4,9 +4,11 @@ const apiURL = process.env.REACT_APP_API_URL
 
 function client(endpoint, {
   token,
-  headers: customHeaders, ...customConfig
+  headers: customHeaders,
+  data,
+  ...customConfig
 } = {}) {
-  const config = {
+  let config = {
     method: 'GET',
     headers: {
       Authorization: token ? `Bearer ${token}` : undefined,
@@ -14,6 +16,20 @@ function client(endpoint, {
     },
     ...customConfig
   }
+
+  if (data) {
+    config = {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: token ? `Bearer ${token}` : undefined,
+        'Content-Type': 'application/json',
+        ...customHeaders
+      },
+      ...customConfig
+    }
+  }
+
 
   return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
     if (response.status === 401) {
