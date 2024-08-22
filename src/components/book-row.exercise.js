@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 
-// We're going to turn the entire book row into a link to the book page
-// 🐨 import the Link component from react-router-dom
+import {Link} from 'react-router-dom'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
+
 
 function BookRow({book}) {
   const {title, author, coverImageUrl} = book
@@ -17,14 +17,11 @@ function BookRow({book}) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        position: 'relative',
+        position: 'relative'
       }}
     >
-      {/*
-          🐨 Turn this div into a Link
-          and add a to prop to make it direct to `/book/${book.id}`
-      */}
-      <div
+      <Link
+        to={`/book/${book.id}`}
         aria-labelledby={id}
         css={{
           minHeight: 270,
@@ -39,16 +36,16 @@ function BookRow({book}) {
           ':hover,:focus': {
             textDecoration: 'none',
             boxShadow: '0 5px 15px -5px rgba(0,0,0,.08)',
-            color: 'inherit',
-          },
+            color: 'inherit'
+          }
         }}
       >
         <div
           css={{
             width: 140,
             [mq.small]: {
-              width: 100,
-            },
+              width: 100
+            }
           }}
         >
           <img
@@ -65,7 +62,7 @@ function BookRow({book}) {
                 css={{
                   fontSize: '1.25em',
                   margin: '0',
-                  color: colors.indigo,
+                  color: colors.indigo
                 }}
               >
                 {title}
@@ -76,7 +73,7 @@ function BookRow({book}) {
                 css={{
                   marginTop: '0.4em',
                   fontStyle: 'italic',
-                  fontSize: '0.85em',
+                  fontSize: '0.85em'
                 }}
               >
                 {author}
@@ -88,7 +85,7 @@ function BookRow({book}) {
             {book.synopsis.substring(0, 500)}...
           </small>
         </div>
-      </div>
+      </Link>
     </div>
   )
 }

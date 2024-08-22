@@ -2,8 +2,7 @@
 import {jsx} from '@emotion/core'
 
 import * as React from 'react'
-// we need to get the "bookId" param from the router
-// 🐨 import the useParams hook from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {client} from 'utils/api-client'
 import * as mq from 'styles/media-queries'
 import {useAsync} from 'utils/hooks'
@@ -15,16 +14,12 @@ const loadingBook = {
   coverImageUrl: bookPlaceholderSvg,
   publisher: 'Loading Publishing',
   synopsis: 'Loading...',
-  loadingBook: true,
+  loadingBook: true
 }
 
 function BookScreen({user}) {
-  // 🐨 use the useParams hook. This'll give you back an object with all the
-  // params you've specified in the route definition. You should be able to get
-  // the bookId from that.
+  const {bookId} = useParams()
 
-  // 💣 remove this, we're getting the bookId from useParams instead.
-  const bookId = '??'
   const {data, run} = useAsync()
 
   React.useEffect(() => {
@@ -32,7 +27,7 @@ function BookScreen({user}) {
   }, [run, bookId, user.token])
 
   const {title, author, coverImageUrl, publisher, synopsis} =
-    data?.book ?? loadingBook
+  data?.book ?? loadingBook
 
   return (
     <div>
@@ -44,8 +39,8 @@ function BookScreen({user}) {
           marginBottom: '1em',
           [mq.small]: {
             display: 'flex',
-            flexDirection: 'column',
-          },
+            flexDirection: 'column'
+          }
         }}
       >
         <img
@@ -64,7 +59,7 @@ function BookScreen({user}) {
               </div>
             </div>
           </div>
-          <br />
+          <br/>
           <p>{synopsis}</p>
         </div>
       </div>
